@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   FadeAnimation(
                     1.5,
-                    Image.asset('assets/img/backg.png'),
+                    Image.asset('assets/img/logo.png'),
                   ),
                   SizedBox(height: 20),
                   FadeAnimation(

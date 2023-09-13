@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
   Route<dynamic> _generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        //   return MaterialPageRoute(builder: (context) => LoginPage());
-        return MaterialPageRoute(builder: (context) => PageUser());
+        return MaterialPageRoute(builder: (context) => LoginPage());
+      // return MaterialPageRoute(builder: (context) => PageUser());
 
       // ... adicione outros casos para outras rotas
 

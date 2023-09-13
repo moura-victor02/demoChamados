@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:your_project_name/pagUser/classes.dart';
-import 'package:your_project_name/pagUser/voids.dart';
+import 'package:your_project_name/pagUser/page_user_functions.dart';
+import 'page_user_functions.dart';
 
 class PageUser extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ class _PageUserState extends State<PageUser> {
   final iconsColor = Colors.white;
   final iconsC = Colors.amber;
   static const double fontSizeCon = 15.0;
+  static const double sizeAdd = 13;
 
   String selectedTicketId = '';
   String userMessage = '';
@@ -34,6 +36,9 @@ class _PageUserState extends State<PageUser> {
   bool isLoadingTickets = true;
   bool hasCreatedTicket = false;
 
+  bool mostrartitulo = true;
+  bool mostrarsub = true;
+
   void initState() {
     super.initState();
 
@@ -42,17 +47,15 @@ class _PageUserState extends State<PageUser> {
       userUID = user.uid; // Atribui o valor ao userUID
       _assignUserMessage(userUID);
     }
-  }
 
-  void _logout() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+    /* if (true) {
+      userUID = 'User Teste'; // Atribui o valor ao userUID
+      _assignUserMessage(userUID);
+    }*/
   }
 
   void _assignUserMessage(String uid) {
-    if (uid == 'h1WDDrhtrhfWbEU0WH7W6JThIFg2') {
+    if (uid == '5BRMjdlDy7h65UjaiyZyjO5jruM2') {
       // ALVORADA
       userMessage = 'Olá, GD Alvorada!';
       div = '  Alvorada    ';
@@ -68,10 +71,10 @@ class _PageUserState extends State<PageUser> {
       // MARAJOARA
       userMessage = 'Olá, GD Marajoara!';
       div = '  Marajoara   ';
-    } else {
+    } else if (uid == 'h1WDDrhtrhfWbEU0WH7W6JThIFg2') {
       // Default message if the UID doesn't match any of the above
       userMessage = 'Olá, usuário!';
-      div = ''; // Set appropriate default value
+      div = '   User Test  '; // Set appropriate default value
     }
   }
 
@@ -277,6 +280,7 @@ class _PageUserState extends State<PageUser> {
                 _updateTicket(updateSetor, updatedDescription, updateNome,
                     updatecpf, updatechip, idTicket);
                 setState(() {
+                  hasCreatedTicket = false;
                   _setorController.clear();
                   _ufController.clear();
                   _nomeController.clear();
@@ -364,12 +368,6 @@ class _PageUserState extends State<PageUser> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text(userMessage),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: _logout,
-          ),
-        ],
       ),
       body: Row(
         children: [
@@ -415,12 +413,32 @@ class _PageUserState extends State<PageUser> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => PageUser()),
-                    );
+                    setState(() {
+                      mostrarsub = !mostrarsub;
+                    });
                   },
                 ),
+                !mostrarsub
+                    ? ListTile(
+                        contentPadding: EdgeInsets.only(
+                            left:
+                                25), // Remove o espaçamento padrão do ListTile
+                        title: Row(
+                          children: [
+                            Icon(Icons.check, color: Colors.green),
+                            SizedBox(
+                                width:
+                                    5), // Adiciona um espaço entre o ícone e o texto
+                            Text(
+                              'Chamados abertos',
+                              style: TextStyle(
+                                  color: iconsColor, fontSize: sizeAdd),
+                            ),
+                          ],
+                        ),
+                        onTap: () {},
+                      )
+                    : Container(),
                 ListTile(
                   contentPadding: EdgeInsets.only(
                       left: 15), // Remove o espaçamento padrão do ListTile
@@ -434,18 +452,47 @@ class _PageUserState extends State<PageUser> {
                           width:
                               8), // Adiciona um espaço entre o ícone e o texto
                       Text(
-                        'Settings',
+                        'Configuração',
                         style: TextStyle(color: iconsColor),
                       ),
                     ],
                   ),
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => PageUser()),
-                    );
+                    setState(() {
+                      mostrartitulo = !mostrartitulo;
+                    });
                   },
                 ),
+                !mostrartitulo
+                    ? ListTile(
+                        contentPadding: EdgeInsets.only(
+                            left:
+                                25), // Remove o espaçamento padrão do ListTile
+                        title: Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              color: iconsC,
+                            ),
+                            SizedBox(
+                                width:
+                                    5), // Adiciona um espaço entre o ícone e o texto
+                            Text(
+                              'Sair',
+                              style: TextStyle(
+                                  color: iconsColor, fontSize: sizeAdd),
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                      )
+                    : Container()
               ],
             ),
           ),
@@ -533,7 +580,7 @@ class _PageUserState extends State<PageUser> {
                         ),
                       ),
                       SizedBox(
-                        width: 115,
+                        width: 147,
                       ),
                       Text(
                         'Setor',
@@ -543,7 +590,7 @@ class _PageUserState extends State<PageUser> {
                         ),
                       ),
                       SizedBox(
-                        width: 140,
+                        width: 173,
                       ),
                       Text(
                         'Divisão',
@@ -553,7 +600,7 @@ class _PageUserState extends State<PageUser> {
                         ),
                       ),
                       SizedBox(
-                        width: 147,
+                        width: 173,
                       ), // Adiciona espaço flexível proporcional
                       Text(
                         'Data',
@@ -563,7 +610,7 @@ class _PageUserState extends State<PageUser> {
                         ),
                       ),
                       SizedBox(
-                        width: 175,
+                        width: 195,
                       ), // Adiciona espaço flexível proporcional
                       Text(
                         'Nome',
@@ -572,9 +619,10 @@ class _PageUserState extends State<PageUser> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        width: 250,
-                      ), // Adiciona espaço flexível proporcional
+                      /*  SizedBox(
+                        width: 160,
+                      ), // Adiciona espaço flexível proporcional*/
+                      Spacer(),
                       Text(
                         'Editar',
                         style: TextStyle(
@@ -651,7 +699,7 @@ class _PageUserState extends State<PageUser> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 130,
+                                    width: 160,
                                   ),
                                   Text(
                                     'Setor $subject',
@@ -660,7 +708,7 @@ class _PageUserState extends State<PageUser> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 130,
+                                    width: 160,
                                   ),
                                   Text(
                                     '$div',
@@ -669,7 +717,7 @@ class _PageUserState extends State<PageUser> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 130,
+                                    width: 160,
                                   ),
                                   Text(
                                     '$formattedDate',
@@ -678,7 +726,7 @@ class _PageUserState extends State<PageUser> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 130,
+                                    width: 160,
                                   ),
                                   Text(
                                     '$nome',
